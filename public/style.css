@@ -1,0 +1,249 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+}
+/* ol{
+    list-style: none;
+}
+li{
+    display: block;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: blue;
+} */
+
+
+.card .ingredients {
+  padding: 0 16px;
+  margin: 0;
+  list-style-type: disc;
+  color: #333;
+}
+
+.card .ingredients li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+header{
+    text-align: center;
+    font-weight: 800;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+padding: 10px;   
+ font-size: 20px;
+ color: #504B38;
+      background-color: #9CAFAA;
+}
+.recipes-container,#results {
+   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #f9f9f9;
+  width: 80%;
+}
+.favorite-btn {
+  margin: 16px;
+  padding: 8px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.favorite-btn:hover {
+  background-color: #c0392b;
+}
+.remove-fav-btn {
+  margin: 12px 16px 16px;
+  padding: 8px 12px;
+  background-color: #e74c3c; /* red tone */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.remove-fav-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.03);
+}
+.recipes-container .card {
+  background-color: #fff;
+  width: 320px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+.recipes-container .card #image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+/* Recipe title styling */
+.recipes-container .card #title{
+ font-size: 1.3rem;
+  font-weight: bold;
+  padding: 12px 16px 0 16px;
+  color: #222;
+}
+.card .ingredients-title,
+.card .instructions-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding: 0 16px;
+  color: #444;
+}
+.card .instructions {
+  padding: 0 16px 16px 40px;
+  color: #333;
+  margin: 0;
+}
+
+.card .instructions li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.recipe-btn {
+  margin: 12px 16px 16px;
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.recipe-btn:hover {
+  background-color: #2980b9;
+}
+/* Recipe description styling */
+.recipes-container .card-description {
+  color: #5a6c7d;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+#searchInput {
+  width: 100%;
+  max-width: 320px;
+  padding: 12px 16px;
+  padding-left: 42px; /* space for icon */
+  font-size: 16px;
+  color: #f1f1f1;
+  background-color: #9696c4;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+#searchInput::placeholder {
+  color: #f0f0f6;
+  opacity: 0.8;
+}
+
+/* Optional: icon inside input */
+.search-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.search-wrapper i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888ca8;
+  pointer-events: none;
+  font-size: 18px;
+}
+.sidebar {
+  width: 220px;
+  height: 88vh;
+  background-color: #FBF3D5;
+  color: #504B38;
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;
+  right: 0;        /* moved from left to right */
+  top: 53px;
+  text-align: center;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  color: #504B38;
+  text-decoration: none;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.sidebar ul li a:hover {
+  background-color: #D6A99D;
+}
+
+footer {
+  background-color: #D6DAC8;
+  color: #1A120B;
+  padding: 20px 40px;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 800;
+  position: fixed;
+  bottom: 0;
+width: 100%;}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    max-width: 90%;
+  }
+}

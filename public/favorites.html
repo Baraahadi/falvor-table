@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Flavor Table</title>
+  </head>
+
+  <body>
+    <header><center><h2>Flavor Table</h2></center></header>
+    <main>
+        
+        <div class="sidebar">
+  <h2>Get Started!</h2>
+  <ul>
+    <li><a href="/recipes/search">search recipes</a></li>
+    <li><a href="/recipes/random">random recipes</a></li>
+    <li><a href="favorites.html">favorite recipes</a></li>
+    <li><a href="#">About us</a></li>
+  </ul>
+</div>
+  <h1>My Favorite Recipes</h1>
+  <div class="recipes-container"></div>
+</main>
+    <footer>all right reserved by baraa</footer>
+    
+    
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector(".recipes-container");
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  if (favorites.length === 0) {
+    container.innerHTML = "<p>No favorite recipes found.</p>";
+    return;
+  }
+
+  favorites.forEach((recipe) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h4 class="title">${recipe.title}</h4>
+      <img class="image" src="${recipe.image}" alt="${recipe.title}">
+      <h5 class="ingredients-title">Ingredients:</h5>
+      <ul class="ingredients"></ul>
+      <h5 class="instructions-title">Instructions:</h5>
+      <ol class="instructions"></ol>
+      <button class="remove-fav-btn ">Remove from Favorites</button>
+
+    `;
+    // Ingredients
+    const ingredientsList = card.querySelector(".ingredients");
+    if (Array.isArray(recipe.ingredients)) {
+      recipe.ingredients.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        ingredientsList.appendChild(li);
+      });
+    }
+ // Instructions (HTML string)
+    const instructionsList = card.querySelector(".instructions");
+    if (typeof recipe.instructions === "string" && recipe.instructions.includes("<li>")) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = recipe.instructions;
+      const liElements = tempDiv.querySelectorAll("li");
+
+      liElements.forEach((li) => {
+        const newLi = document.createElement("li");
+        newLi.textContent = li.textContent;
+        instructionsList.appendChild(newLi);
+      });
+      
+    }
+
+    container.appendChild(card);
+
+
+  });
+ const removeBtn=document.getElementsByClassName('remove-fav-btn')
+removeBtn.addEventListener("click", () => {
+  const updated = favorites.filter(fav => fav.title !== recipe.title);
+  localStorage.setItem("favorites", JSON.stringify(updated));
+  location.reload(); 
+});
+  
+});
+     
+
+  </script>
+</html>
