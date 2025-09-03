@@ -115,10 +115,10 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     card.className='card';
       card.innerHTML += `
         <div>
-          <h3>${recipe.title}</h3>
-          <img src="${recipe.image}" width="200">
-          <p><b>Used:</b> ${recipe.usedIngredients.join(", ")}</p>
-          <p><b>Missing:</b> ${recipe.missedIngredients.join(", ")}</p>
+          <h3 id="title">${recipe.title}</h3>
+          <img id="image" src="${recipe.image}" width="200">
+          <p class="ingredients"><b>Used:</b> ${recipe.usedIngredients.join(", ")}</p>
+          <p class="ingredients" ><b>Missing:</b> ${recipe.missedIngredients.join(", ")}</p>
         </div>
       `;
       resultsDiv.appendChild(card)

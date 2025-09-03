@@ -20,7 +20,6 @@
     <li><a href="#">About us</a></li>
   </ul>
 </div>
-  <h1>My Favorite Recipes</h1>
   <div class="recipes-container"></div>
 </main>
     <footer>all right reserved by baraa</footer>
@@ -61,7 +60,7 @@
         ingredientsList.appendChild(li);
       });
     }
- // Instructions (HTML string)
+ // Instructions
     const instructionsList = card.querySelector(".instructions");
     if (typeof recipe.instructions === "string" && recipe.instructions.includes("<li>")) {
       const tempDiv = document.createElement("div");
@@ -75,18 +74,17 @@
       });
       
     }
-
+      const removeBtn = card.querySelector(".remove-fav-btn");
+      removeBtn.addEventListener("click", () => {
+      const updated = favorites.filter((fav) => fav.title !== recipe.title);
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      location.reload();
+    });
     container.appendChild(card);
 
 
   });
- const removeBtn=document.getElementsByClassName('remove-fav-btn')
-removeBtn.addEventListener("click", () => {
-  const updated = favorites.filter(fav => fav.title !== recipe.title);
-  localStorage.setItem("favorites", JSON.stringify(updated));
-  location.reload(); 
-});
-  
+
 });
      
 

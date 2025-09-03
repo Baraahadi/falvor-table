@@ -13,13 +13,8 @@ app.use(cors());
 //middleware 
 app.use(express.static(path.join(__dirname, "public")));
 
-// redirect from root to index.html
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-  
-});
 
-
+const home= require('./routes/home')
 const recipesRoute= require('./routes/recipes');
 const randomRecipes=require('./routes/recipes');
 const recipeSearch=require('./routes/recipes')
@@ -29,6 +24,7 @@ app.get("/style.css", (req, res) => {
 app.get("/app.js", (req, res) => {
   res.sendFile(path.join(__dirname, "app.js"));
 });
+app.use('/',home)
 app.use('/recipes', recipesRoute);
 app.use('/recipes',randomRecipes);
 app.use('/recipes',recipeSearch);
