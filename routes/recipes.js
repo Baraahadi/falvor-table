@@ -4,7 +4,29 @@ const express = require('express');
 const axios= require('axios');
 const path = require("path");
 const router= express.Router();
+// rendering recipes API 
+router.get("/api",async(req, res)=>{
+  try {
+    const response = await axios.get('https://api.spoonacular.com/recipes/random', {
+      params: {
+        apiKey: API_Key,
+        number:3
+      }
+    });
+   console.log(response);
+    const recipes= response.data.recipes.map(e => ({
+      title: e.title,
+      image:e.image,
+      instructions: e.instructions,
+      ingredients:e.extendedIngredients.map(ing=>ing.original)
+    }));
+    res.json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching data", error: error.message });
+  }
 
+
+});
 // rendering recipes randomly
 router.get("/random",(req,res)=>{
    res.sendFile(path.join(__dirname, "../public/randomRecipes.html"));
@@ -12,6 +34,7 @@ router.get("/random",(req,res)=>{
 
 // search recipes based on ingredient 
 router.get('/search', async (req,res)=>{
+  
 try {
     const { ingredients } = req.query;
       if (!ingredients) {
