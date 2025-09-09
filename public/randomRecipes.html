@@ -21,8 +21,22 @@
     <div class="recipes-container">
     </div>
     <button id="load more!" onclick="renderRecipes()"></button>
+    <!--  -->
+    <div id="updateModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h3>Update Recipe</h3>
+    <form id="updateForm">
+      <input type="text" name="title" placeholder="Title" required><br>
+      <input type="text" name="image" placeholder="Image URL"><br>
+      <textarea name="ingredients" placeholder="Ingredients (comma separated)" rows="4"></textarea><br>
+      <textarea name="instructions" placeholder="Instructions" rows="4"></textarea><br>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+</div>
    </main>
     <footer>all right reserved by baraa</footer>
-   <script src="/app.js" ></script>
+   <script src="/app.js"type="module" ></script>
 </body>
 </html>

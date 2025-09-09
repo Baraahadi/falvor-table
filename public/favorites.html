@@ -28,65 +28,86 @@
   </body>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".recipes-container");
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-  if (favorites.length === 0) {
-    container.innerHTML = "<p>No favorite recipes found.</p>";
-    return;
-  }
+  try {
+    // Fetch favorites from backend
+    const response = await fetch("/recipes/all");
+    const favorites = await response.json();
 
-  favorites.forEach((recipe) => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <h4 class="title">${recipe.title}</h4>
-      <img class="image" src="${recipe.image}" alt="${recipe.title}">
-      <h5 class="ingredients-title">Ingredients:</h5>
-      <ul class="ingredients"></ul>
-      <h5 class="instructions-title">Instructions:</h5>
-      <ol class="instructions"></ol>
-      <button class="remove-fav-btn ">Remove from Favorites</button>
-
-    `;
-    // Ingredients
-    const ingredientsList = card.querySelector(".ingredients");
-    if (Array.isArray(recipe.ingredients)) {
-      recipe.ingredients.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        ingredientsList.appendChild(li);
-      });
+    if (favorites.length === 0) {
+      container.innerHTML = "<p>No favorite recipes found.</p>";
+      return;
     }
- // Instructions
-    const instructionsList = card.querySelector(".instructions");
-    if (typeof recipe.instructions === "string" && recipe.instructions.includes("<li>")) {
-      const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = recipe.instructions;
-      const liElements = tempDiv.querySelectorAll("li");
 
-      liElements.forEach((li) => {
-        const newLi = document.createElement("li");
-        newLi.textContent = li.textContent;
-        instructionsList.appendChild(newLi);
-      });
-      
-    }
+    favorites.forEach((recipe) => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <h4 class="title">${recipe.title}</h4>
+        <img class="image" src="${recipe.image}" alt="${recipe.title}">
+        <h5 class="ingredients-title">Ingredients:</h5>
+        <ul class="ingredients"></ul>
+        <h5 class="instructions-title">Instructions:</h5>
+        <ol class="instructions"></ol>
+        <button class="remove-fav-btn">Remove from Favorites</button>
+      `;
+
+      // Ingredients
+      const ingredientsList = card.querySelector(".ingredients");
+      try {
+        const ingredientsArray = Array.isArray(recipe.ingredients) ? recipe.ingredients : JSON.parse(recipe.ingredients);
+        ingredientsArray.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ingredientsList.appendChild(li);
+        });
+      } catch {
+        // fallback if parsing fails
+        const items = (recipe.ingredients || "").split(",").map(i => i.trim());
+        items.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ingredientsList.appendChild(li);
+        });
+      }
+
+      // Instructions
+      const instructionsList = card.querySelector(".instructions");
+      try {
+        const steps = Array.isArray(recipe.instructions) ? recipe.instructions : JSON.parse(recipe.instructions);
+        steps.forEach(step => {
+          const li = document.createElement("li");
+          li.textContent = step;
+          instructionsList.appendChild(li);
+        });
+      } catch {
+        // fallback if plain string
+        const steps = (recipe.instructions || "").split(/\r?\n|\. /).map(s => s.trim()).filter(Boolean);
+        steps.forEach(step => {
+          const li = document.createElement("li");
+          li.textContent = step;
+          instructionsList.appendChild(li);
+        });
+      }
+
+      // Remove favorite button
       const removeBtn = card.querySelector(".remove-fav-btn");
-      removeBtn.addEventListener("click", () => {
-      const updated = favorites.filter((fav) => fav.title !== recipe.title);
-      localStorage.setItem("favorites", JSON.stringify(updated));
-      location.reload();
+      removeBtn.addEventListener("click", async () => {
+        await fetch(`/recipes/favorites/${recipe.id}`, { method: "DELETE" });
+        card.remove(); // remove card from DOM
+      });
+
+      container.appendChild(card);
     });
-    container.appendChild(card);
-
-
-  });
-
+  } catch (error) {
+    console.error("Error fetching favorite recipes:", error);
+    container.innerHTML = "<p>Failed to load favorite recipes.</p>";
+  }
 });
-     
 
+     
   </script>
 </html>
